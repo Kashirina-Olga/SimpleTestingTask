@@ -1,0 +1,20 @@
+dependencies {
+    def springVersion = "5.0.4.RELEASE"
+
+    implementation group: 'org.springframework', name: 'spring-beans', version: springVersion
+    implementation group: 'org.springframework', name: 'spring-core', version: springVersion
+    implementation group: 'org.springframework', name: 'spring-context', version: springVersion
+    implementation group: 'org.springframework', name: 'spring-web', version: springVersion
+    implementation group: 'org.springframework', name: 'spring-test', version: springVersion
+
+    implementation group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+    implementation group: 'org.slf4j', name: 'log4j-over-slf4j', version: '1.7.25'
+    implementation group: 'javax', name: 'javaee-api', version: '7.0'
+    implementation group: 'org.skyscreamer', name: 'jsonassert', version: '1.5.0'
+    implementation group: 'commons-io', name: 'commons-io', version: '2.4'
+    implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+
+
+    runtimeOnly group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    runtimeOnly group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+}

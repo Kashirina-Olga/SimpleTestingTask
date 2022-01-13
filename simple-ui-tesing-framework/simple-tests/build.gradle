@@ -1,0 +1,68 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+import org.apache.commons.io.FileUtils
+
+dependencies {
+    compile project(":core")
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "commons-io:commons-io:2.4"
+    }
+}
+
+ext {
+    drivers = ["chrome","chromeHeadless"]
+    ext {
+        chromeDriverVersion = "91.0.4472.19"
+    }
+}
+
+
+task downloadChromeDriver {
+    def outputFile = file("$buildDir/webdriver/chromedriver.zip")
+    inputs.property("chromeDriverVersion", chromeDriverVersion)
+    outputs.file(outputFile)
+
+    doLast {
+        def driverOsFilenamePart
+        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+            driverOsFilenamePart = "win32"
+        } else if (Os.isFamily(Os.FAMILY_MAC)) {
+            driverOsFilenamePart = "mac64"
+        }
+        def url = "http://chromedriver.storage.googleapis.com/${chromeDriverVersion}/chromedriver_${driverOsFilenamePart}.zip"
+        FileUtils.copyURLToFile(new URL(url), outputFile)
+    }
+}
+
+task unzipChromeDriver(type: Copy) {
+    def outputDir = file("$buildDir/webdriver/chromedriver")
+    dependsOn downloadChromeDriver
+    outputs.dir(outputDir)
+
+    from(zipTree(downloadChromeDriver.outputs.files.singleFile))
+    into(outputDir)
+}
+
+drivers.each { driver ->
+    task "${driver}Test"(type: Test) {
+        dependsOn unzipChromeDriver
+        group JavaBasePlugin.VERIFICATION_GROUP
+
+        outputs.upToDateWhen { false }  // Always run tests
+
+        systemProperty "geb.build.reportsDir", reporting.file("geb/$name")
+        systemProperty "geb.env", driver
+    }
+}
+
+test {
+    def driver = System.properties['geb.env']?:"chrome"
+    dependsOn tasks["${driver}Test"]
+    enabled = false
+}
