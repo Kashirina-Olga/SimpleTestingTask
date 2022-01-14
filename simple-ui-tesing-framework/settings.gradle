@@ -1,3 +1,5 @@
 include 'core'
 include 'simple-tests'
+include 'mail-tests'
+include 'TestModule'
 
