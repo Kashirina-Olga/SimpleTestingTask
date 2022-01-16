@@ -27,6 +27,9 @@ environments {
             def options = new ChromeOptions()
             options.addArguments('start-maximized')
             options.addArguments('disable-cache')
+            options.addArguments('disable-web-security')
+            options.addArguments('allow-running-insecure-content')
+            //options.addArguments('user-data-dir')
             def driver = new ChromeDriver(options)
             return driver
         }
@@ -38,6 +41,9 @@ environments {
             options.addArguments('headless')
             options.addArguments('start-maximized')
             options.addArguments('disable-cache')
+            options.addArguments('disable-web-security')
+            options.addArguments('allow-running-insecure-content')
+            //options.addArguments('user-data-dir')
             def driver = new ChromeDriver(options)
             return driver
         }
