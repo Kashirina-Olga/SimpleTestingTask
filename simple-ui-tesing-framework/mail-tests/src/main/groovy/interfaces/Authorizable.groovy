@@ -10,4 +10,5 @@ trait Authorizable {
         signInPage.signIn(email, password)
         at HomePage
     }
+
 }

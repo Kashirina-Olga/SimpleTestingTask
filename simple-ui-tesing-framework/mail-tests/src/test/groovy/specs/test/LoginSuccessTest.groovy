@@ -10,7 +10,7 @@ class LoginSuccessTest extends MailTestCase implements Authorizable{
     def "Success login test"() {
 
         when: "I navigate Mail.ru Sign in page"
-        HomePage homePage = login("","")
+        HomePage homePage = login("testing_account111","clone123!")
 
         then: "User successfully logged in to Mail.ru"
         at HomePage
@@ -22,7 +22,7 @@ class LoginSuccessTest extends MailTestCase implements Authorizable{
         at MailPage
 
         and: "User creates a new mail draft"
-        mailPage.saveMailAsDraft("april.helga@mail.ru", "Test", "Hello!")
+        mailPage.saveMailAsDraft("testing_account111@mail.ru", "Test", "Hello!")
         mailPage.closeMail()
 
         then: "Mail presents in ‘Drafts’ folder"
@@ -32,9 +32,10 @@ class LoginSuccessTest extends MailTestCase implements Authorizable{
         homePage.openLastEmail()
 
         then: "Verify draft content"
-        //assert mailPage.toField.text() == "april.helga@mail.ru"
+        //assert mailPage.toField.text() == "testing_account111@mail.ru"
         assert mailPage.topicField.value() == "Test"
         //assert mailPage.bodyField.text() == "Hello!"
+
 
 
     }
