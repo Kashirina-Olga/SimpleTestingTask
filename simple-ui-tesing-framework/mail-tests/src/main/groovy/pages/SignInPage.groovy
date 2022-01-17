@@ -5,25 +5,19 @@ import org.openqa.selenium.By
 
 class SignInPage extends Page {
 
-    static at = { title == "Gmail" }
+    static at = { title.contains("Mail.ru")}
 
     static content = {
-        emailAccountButton { $("[data-email='olgakashirina454@gmail.com']") }
-        emailField { $("[type='email']") }
-        passwordField { $("[type='password']") }
-        nextButton { $(By.xpath("//span[text()='Далее']")) }
-        signInButton { $("[type='submit']") }
-    }
-
-    void signInWithSavedAccount(String password) {
-        emailAccountButton.click();
-        passwordField << password
-        signInButton.click()
+        emailField { $("[name='login']") }
+        passwordField { $("[name='password']") }
+        enterPasswordButton { $("[data-testid='enter-password']") }
+        signInButton { $("[data-testid='login-to-mail']") }
     }
 
     void signIn(String email, String password) {
         emailField << email
-        nextButton.click()
+        enterPasswordButton.click()
+        waitFor {passwordField.displayed}
         passwordField << password
         signInButton.click()
     }
